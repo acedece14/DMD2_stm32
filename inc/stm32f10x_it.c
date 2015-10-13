@@ -23,7 +23,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
-
+#include "hal_delay.h"
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
   */
@@ -138,6 +138,7 @@ void PendSV_Handler(void)
 volatile static  uint16_t iLadBlink = TMR_COUNT;
 void SysTick_Handler(void)
 {  
+  Timer_CountTime();
   if(--iLadBlink == 0)
   {
     iLadBlink = TMR_COUNT;

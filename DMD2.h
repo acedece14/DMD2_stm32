@@ -169,6 +169,7 @@ class DMDFrame
   const inline uint8_t *getFont(void) { return font; }
   unsigned int drawChar(const int x, const int y, const unsigned char letter, DMDGraphicsMode mode=GRAPHICS_ON, const uint8_t *font = NULL);
 
+  void drawString2(int x, int y, String *str, DMDGraphicsMode mode=GRAPHICS_ON, const uint8_t *font = NULL);
   void drawString(int x, int y, const char *bChars, DMDGraphicsMode mode=GRAPHICS_ON, const uint8_t *font = NULL);
   void drawString(int x, int y, const String &str, DMDGraphicsMode mode=GRAPHICS_ON, const uint8_t *font = NULL);
 #ifdef __AVR__

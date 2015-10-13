@@ -122,13 +122,12 @@ inline void _drawString(DMDFrame *dmd, int x, int y, String str, DMDGraphicsMode
 inline unsigned int _stringWidth(DMDFrame *dmd, const uint8_t *font, String str)
 {
   unsigned int width = 0;
-  char c;
-  int idx;
+  unsigned char c;
+  int idx; 
   for(idx = 0; c = str[idx], c != 0; idx++) {
     int cwidth = dmd->charWidth(c);
     if(cwidth > 0)
-      width += cwidth + 1;
-	
+      width += cwidth + 1;           	
   }
   if(width) {
     width--;
@@ -177,6 +176,15 @@ void DMDFrame::drawString(int x, int y, const char *bChars, DMDGraphicsMode mode
   _drawString(this, x, y, bChars, mode, font);
 }
 
+void DMDFrame::drawString2(int x, int y, String *str, DMDGraphicsMode mode, const uint8_t *font)
+{
+  if(!font)
+    font = this->font;
+  if (x >= (int)width || y >= height)
+    return;
+  _drawString(this, x, y, *str, mode, font);
+}
+
 void DMDFrame::drawString(int x, int y, const String &str, DMDGraphicsMode mode, const uint8_t *font)
 {
   if(!font)
@@ -212,7 +220,8 @@ int DMDFrame::charWidth(const unsigned char letter, const uint8_t *font)
 
 	
   // variable width font, read width data for character
-  return this->font[sizeof(FontHeader) + letter - header.firstChar];
+  int result = this->font[sizeof(FontHeader) + letter - header.firstChar];
+  return result;
 }
 
 unsigned int DMDFrame::stringWidth(const char *bChars, const uint8_t *font)

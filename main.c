@@ -11,7 +11,7 @@
 int main()
 {
   RCC_Configuration();  
- // ConfigSys_LedGpioEnable();       
+  ConfigSys_LedGpioEnable();       
      // Точка входа в приложение;     
   TermMain();
   return 0;

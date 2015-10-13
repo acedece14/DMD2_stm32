@@ -13,6 +13,7 @@
 #include "DMD2.h"
 #include "hal_TIM2.h" 
 #include "hal_SPI.h"
+#include "HAL_Delay.h"
 
 #include "TEST_LEDP.h"
 /*
@@ -37,25 +38,53 @@ void TermMain(void) {
   byte pin_a = 2;   //D10
   byte pin_b = 3;    //D09    ;
   byte pin_sck = 5;   //D07        
-  SPIDMD dmd(1, 1, pin_noe,  pin_a,  pin_b, pin_sck);  
+  SPIDMD dmd(2, 1, pin_noe,  pin_a,  pin_b, pin_sck);  
   dmd.setBrightness(255);
   dmd.selectFont(uni8);            
   //Usart2.Init(9600); // Инициализация USART порта на скорости 9600
-  bool isStart = false;
-  while(1) {
-    //dmd.setPixel(1,1,GRAPHICS_ON);
-    dmd.fillScreen(false);
+  dmd.fillScreen(false);
   dmd.drawString(0 , 0, "Привет");
+  hal_SPI_Init();
+  hal_TIM2_Init();
+  hal_TIM2_Set_OCC1(0xDDDD); 
+  
+  static int volatile drawMode = 0;     
+  TTIMER  tim1 =  Timer_Create(1000);
+  
+  //String scrollText = "text";  
+  
+  //String  str = "string";
+ 
+//  dmd.drawString(0,0, "test");   
+ 
+  
+  //dmd.drawString(0, 0, scrollText.c_str());
+ // uint16_t scrollTextLen = dmd.stringWidth( scrollText.c_str(), uni8);
+ 
+  while(1)   
+  if(Timer_CheckStatus(tim1) == 0) {
+    switch (drawMode) {
+      case 0 : 
+        dmd.drawString(0, 0, "Федо ");                       
+        dmd.drawString(0, 8, "   М ");
+        break;  
+      case 1 : 
+        dmd.clearScreen();          
+        dmd.drawString(32, 0, "Федо 2 ");                       
+        dmd.drawString(32, 8, "   М ");
+        break;
+      case 2 : 
+        dmd.drawString(0, 0, "Тест");                       
+        dmd.drawString(0, 8, "экрана");
+        break;
+      case 3 : 
+        dmd.clearScreen();
+        drawMode = -1;
+        break;
+      }          
+      drawMode++;  
+    Timer_SetTimeout(tim1, 1000);
     
-    //dmd.drawLine(0,0,15,31,GRAPHICS_ON);
-    if (!isStart) {  
-      hal_SPI_Init();
-      hal_TIM2_Init();
-      hal_TIM2_Set_OCC1(0xDDDD); // не определен TC_IER_CPCS
-     // hal_SPI_Init();
-      isStart = true;
-    } 
-  //  dmd.drawBox(1,1,3,3);
   // MemAT45DB.Init();     // Инициализация интерфейса работы с памятью
   // AT45DB161
   };

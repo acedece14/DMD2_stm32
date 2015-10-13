@@ -91,9 +91,7 @@ void analogWrite(uint8_t pin, uint16_t val)  // тут не известно назначение
 {
   hal_TIM2_Set_OCC1(val); // установка скважности ШИМ
   
-  return;
-  
-  
+  return;  
 }
 
 
@@ -137,7 +135,7 @@ void BaseDMD::scanDisplay() {
   writeSPIData(rows, rowsize);
                                
   digitalWrite(pin_sck, HIGH);
-  HAL_Delay_us(100);    
+  //HAL_Delay_us(100);    
   digitalWrite(pin_sck, LOW);  
   
  
@@ -153,12 +151,11 @@ void BaseDMD::scanDisplay() {
   digitalWrite(pin_b, writeB);
   scan_row = (scan_row + 1) % 4;
 
-  // Output enable pin is either fixed on, or PWMed for a variable brightness display
- // if(brightness == 255)
+   //Output enable pin is either fixed on, or PWMed for a variable brightness display
+  if(brightness == 255)
     digitalWrite(pin_noe, HIGH);
-    __NOP();
- // else
- //   analogWrite(pin_noe, brightness);       
+  else
+    analogWrite(pin_noe, brightness);       
 }
  
 BaseDMD::BaseDMD(byte panelsWide, byte panelsHigh, byte pin_noe, byte pin_a, byte pin_b, byte pin_sck)

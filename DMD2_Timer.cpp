@@ -29,10 +29,10 @@ void BaseDMD::end() {
  
  extern "C" void TIM2_IRQHandler()
 {     
-    GPIO_SetBits(GPIOB, GPIO_Pin_1);  
+   // GPIO_SetBits(GPIOB, GPIO_Pin_1);  
     TIM_ClearITPendingBit(TIM2, TIM_IT_Update);      /* Clear the Update pending bit */     
     scan_running_dmds(); 
-    GPIO_ResetBits(GPIOB, GPIO_Pin_1); 
+  //  GPIO_ResetBits(GPIOB, GPIO_Pin_1); 
   return;
 }
  
