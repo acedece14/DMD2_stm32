@@ -21,7 +21,8 @@
  
 void TermMain(void) {    
   
-  //TEST_LEDP_Start();   
+  //TEST_LEDP_Start();  
+  /*
   pinMode(1, OUTPUT); 
   digitalWrite(1, 1);
   pinMode(2, OUTPUT);    
@@ -30,7 +31,7 @@ void TermMain(void) {
   digitalWrite(3, 1);
   pinMode(5, OUTPUT);
   digitalWrite(5, 1); 
-  
+ */ 
   byte pin_noe = 1; //D11  
   byte pin_a = 2;   //D10
   byte pin_b = 3;    //D09    ;
@@ -41,8 +42,8 @@ void TermMain(void) {
   //Usart2.Init(9600); // Инициализация USART порта на скорости 9600
   bool isStart = false;
   while(1) {
-   // dmd.drawString(0 , 0, "TEST");
-   // dmd.drawLine(0,0,90,90,GRAPHICS_ON);
+   dmd.drawString(0 , 0, "TEST");
+    dmd.drawLine(0,0,90,90,GRAPHICS_ON);
     if (!isStart) {  
       hal_SPI_Init();
       hal_TIM2_Init();

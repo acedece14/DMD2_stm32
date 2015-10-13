@@ -4,6 +4,7 @@
 #include "hal_SPI.h"
 #include "hal_IO.h"
 #include "hal_TIM2.h"
+#include "hal_delay.h"
 
 // Port registers are same size as a pointer (16-bit on AVR, 32-bit on ARM)
 typedef intptr_t port_reg_t;
@@ -28,7 +29,7 @@ void SPI::begin()
  
 void SPI::transfer(uint8_t data)
 { 
-  data = 0x0F;     // test
+  //data = 0x0F;     // test
   hal_SPI_SendByte(data);                
   return;  
 }
@@ -130,21 +131,21 @@ void BaseDMD::scanDisplay() {
 
   int rowsize = unified_width_bytes();
 
-  for (int i = 0; i < 10; i++)
+ /* for (int i = 0; i < 10; i++)
     bitmap[i] = 0x0F;
-  
+      */
   volatile uint8_t *rows[4] = { // Scanning out 4 interleaved rows
     bitmap + (scan_row + 0) * rowsize,
     bitmap + (scan_row + 4) * rowsize,
     bitmap + (scan_row + 8) * rowsize,
     bitmap + (scan_row + 12) * rowsize,
   }; 
-  digitalWrite(pin_noe, LOW);
-  digitalWrite(pin_sck, HIGH);   
-  
+  digitalWrite(pin_noe, LOW);  
   writeSPIData(rows, rowsize);
   
   digitalWrite(pin_sck, LOW);  
+  HAL_Delay_us(100); 
+  digitalWrite(pin_sck, HIGH);  
   
  
   // Digital outputs A, B are a 2-bit selector output, set from the scan_row variable (loops over 0-3),
@@ -160,11 +161,11 @@ void BaseDMD::scanDisplay() {
   scan_row = (scan_row + 1) % 4;
 
   // Output enable pin is either fixed on, or PWMed for a variable brightness display
-  if(brightness == 255)
+ // if(brightness == 255)
     digitalWrite(pin_noe, HIGH);
-  else
-    analogWrite(pin_noe, brightness);
-   
+    __NOP();
+ // else
+ //   analogWrite(pin_noe, brightness);       
 }
  
 BaseDMD::BaseDMD(byte panelsWide, byte panelsHigh, byte pin_noe, byte pin_a, byte pin_b, byte pin_sck)

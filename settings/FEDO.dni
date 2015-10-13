@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=-1319629897
+Checksum=-1134714855
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -47,7 +47,7 @@ ActionState=1
 Enabled=0
 ShowSource=1
 [struct_types]
-Fmt0=class DMDFrame-bitmap	1	0
+Fmt0=class DMDFrame-bitmap	4	0
 [array_types]
 Fmt0=unsigned char volatile *[4]	1	0
 [watch_formats]
