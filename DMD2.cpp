@@ -69,8 +69,7 @@ void digitalWrite(uint8_t pin, uint8_t state) {
     case 2 : pin = 0x02 ;  
     break;
     case 3 : pin = 0x04 ;  
-    break;
-    
+    break;                         
     case 5 : pin = 0x10 ; 
     break;    
   }
@@ -109,17 +108,12 @@ void pinMode(uint8_t pin, uint8_t mode)
     break;
     case 3 : pin = 0x04 ;  
     break;                    
-    case 5 : pin = 0x20 ; 
+    case 5 : pin = 0x10 ; 
     break;    
   }
   hal_IO_InitPin(RCC_APB2Periph_GPIOA, GPIOA, pin,  mode );       
   return;
 }
-
-
-
-
-
 
 
 
@@ -131,9 +125,8 @@ void BaseDMD::scanDisplay() {
 
   int rowsize = unified_width_bytes();
 
- /* for (int i = 0; i < 10; i++)
-    bitmap[i] = 0x0F;
-      */
+
+      
   volatile uint8_t *rows[4] = { // Scanning out 4 interleaved rows
     bitmap + (scan_row + 0) * rowsize,
     bitmap + (scan_row + 4) * rowsize,
@@ -142,10 +135,10 @@ void BaseDMD::scanDisplay() {
   }; 
   digitalWrite(pin_noe, LOW);  
   writeSPIData(rows, rowsize);
-  
+                               
+  digitalWrite(pin_sck, HIGH);
+  HAL_Delay_us(100);    
   digitalWrite(pin_sck, LOW);  
-  HAL_Delay_us(100); 
-  digitalWrite(pin_sck, HIGH);  
   
  
   // Digital outputs A, B are a 2-bit selector output, set from the scan_row variable (loops over 0-3),
@@ -229,3 +222,15 @@ void BaseDMD::beginNoTimer()
   clearScreen();
   scanDisplay();
 }
+
+  uint8_t const DMD_Pixel_Lut[] = {
+    0x80,   //0, bit 7
+    0x40,   //1, bit 6
+    0x20,   //2. bit 5
+    0x10,   //3, bit 4
+    0x08,   //4, bit 3
+    0x04,   //5, bit 2
+    0x02,   //6, bit 1
+    0x01    //7, bit 0
+  };
+ 

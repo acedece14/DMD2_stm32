@@ -72,6 +72,11 @@ void DMDFrame::setPixel(unsigned int x, unsigned int y, DMDGraphicsMode mode)
 {
   if(x >= width || y >= height)
      return;
+  
+  
+  // TEST
+  
+  // TEST
 
   int byte_idx = pixelToBitmapIndex(x,y);
   uint8_t bit = pixelToBitmask(x);

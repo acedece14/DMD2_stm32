@@ -54,7 +54,6 @@
 #define portInputRegister(P) ( (volatile uint8_t *)( pgm_read_word( port_to_input_PGM + (P))) )
 #define portModeRegister(P) ( (volatile uint8_t *)( pgm_read_word( port_to_mode_PGM + (P))) ) 
 
- 
 
 
 void digitalWrite(uint8_t pin, uint8_t state);
@@ -225,12 +224,9 @@ class DMDFrame
     int res = x / 8 + (y * unified_width_bytes());
     return res;
   }
-  inline uint8_t pixelToBitmask(unsigned int x) {
-    //acdc -
-   // int res = pgm_read_byte(DMD_Pixel_Lut + (x & 0x07));
-    //acdc + 
-      int res = 1;
-    //acdc +
+
+  inline uint8_t pixelToBitmask(unsigned int x) { 
+    int res = DMD_Pixel_Lut[x & 0x07]; 
     return res;
   }
 

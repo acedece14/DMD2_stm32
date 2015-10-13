@@ -8,6 +8,7 @@
 #include "TermMain.h"
 
 #include "arial16b.h"
+#include "uni8.h"
 
 #include "DMD2.h"
 #include "hal_TIM2.h" 
@@ -38,12 +39,15 @@ void TermMain(void) {
   byte pin_sck = 5;   //D07        
   SPIDMD dmd(1, 1, pin_noe,  pin_a,  pin_b, pin_sck);  
   dmd.setBrightness(255);
-  dmd.selectFont(arial16b);            
+  dmd.selectFont(uni8);            
   //Usart2.Init(9600); // Инициализация USART порта на скорости 9600
   bool isStart = false;
   while(1) {
-   dmd.drawString(0 , 0, "TEST");
-    dmd.drawLine(0,0,90,90,GRAPHICS_ON);
+    //dmd.setPixel(1,1,GRAPHICS_ON);
+    dmd.fillScreen(false);
+  dmd.drawString(0 , 0, "Привет");
+    
+    //dmd.drawLine(0,0,15,31,GRAPHICS_ON);
     if (!isStart) {  
       hal_SPI_Init();
       hal_TIM2_Init();
